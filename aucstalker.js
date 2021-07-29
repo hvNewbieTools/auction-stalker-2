@@ -1,14 +1,15 @@
 // ==UserScript==
 // @name         auc stalker 2
-// @namespace    http://tampermonkey.net/
-// @version      0.2
+// @version      0.2.1
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
+// @namespace    https://github.com/hvNewbieUtils
+// @updateURL    https://raw.githubusercontent.com/hvNewbieUtils/auction-stalker-2/main/aucstalker.js
 // @grant        GM.addStyle
 // ==/UserScript==
 
-const nicks=["call-lector","Ajkbyjd","KingArtson","Ikki Pop","sparroff","20Ilya","Mikle3000","mr_baka","SleepDealer"];
+const nicks=["call-lector","Ajkbyjd","KingArtson","Ikki Pop","sparroff","20Ilya","Mikle3000","mr_baka","SleepDealer","Darber1337"];
 
 (function() {
     var post=document.getElementsByClassName('borderwrap');
