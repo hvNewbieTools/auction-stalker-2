@@ -4,9 +4,9 @@
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
-// @namespace    https://github.com/hvNewbieUtils
-// @updateURL    https://raw.githubusercontent.com/hvNewbieUtils/auction-stalker-2/main/aucstalker.js
-// @downloadURL  https://raw.githubusercontent.com/hvNewbieUtils/auction-stalker-2/main/aucstalker.js
+// @namespace    https://github.com/hvNewbieTools
+// @updateURL    https://raw.githubusercontent.com/hvNewbieTools/auction-stalker-2/main/aucstalker.js
+// @downloadURL  https://raw.githubusercontent.com/hvNewbieTools/auction-stalker-2/main/aucstalker.js
 // @grant        GM.addStyle
 // ==/UserScript==
 
