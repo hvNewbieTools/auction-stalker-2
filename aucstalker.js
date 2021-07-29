@@ -6,6 +6,7 @@
 // @match        https://forums.e-hentai.org/index.php?showtopic*
 // @namespace    https://github.com/hvNewbieUtils
 // @updateURL    https://raw.githubusercontent.com/hvNewbieUtils/auction-stalker-2/main/aucstalker.js
+// @downloadURL  https://raw.githubusercontent.com/hvNewbieUtils/auction-stalker-2/main/aucstalker.js
 // @grant        GM.addStyle
 // ==/UserScript==
 
