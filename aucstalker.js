@@ -15,11 +15,14 @@ const nicks=["call-lector","Ajkbyjd","KingArtson","Ikki Pop","sparroff","20Ilya"
 (function() {
     var post=document.getElementsByClassName('borderwrap');
     if(post[1].innerHTML.toLowerCase().indexOf('auction')!=-1){
-        var buttonfind=document.createElement("div");
-        buttonfind.id='findNicks';
-        buttonfind.innerHTML='friends';
-        post[2].prepend(buttonfind);
-        replall(post[2].children[1].children[0].children[1].children[1], nicks) ? buttonfind.classList.add("yesfind") : buttonfind.classList.add("nofind");
+        let params=new URLSearchParams(document.location.search);
+        if(params.get("st")==null||params.get("st")==0){
+            var buttonfind=document.createElement("div");
+            buttonfind.id='findNicks';
+            buttonfind.innerHTML='friends';
+            post[2].prepend(buttonfind);
+            replall(post[2].children[1].children[0].children[1].children[1], nicks) ? buttonfind.classList.add("yesfind") : buttonfind.classList.add("nofind");
+        }
     }
 })();
 
