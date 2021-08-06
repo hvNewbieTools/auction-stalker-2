@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         auc stalker 2
-// @version      0.2.1
+// @version      0.2.2
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -31,7 +31,6 @@ function replall(body, nicklist){
     if(check){
         body.innerHTML=body.innerHTML.replace(regcr(nicklist), '<span class="heey">$&</span>');
         body.innerHTML=body.innerHTML.replace(/seller: <span class="heey">/g, '<span class="slb">seller: </span><span class="heey heey2">');
-        //body.innerHTML=body.innerHTML.replace(/<span class="heey">(.*)<\/span>\s(.+?)\s/g, '<span class="heey">$1</span><span class="heeycost"> $2</span> ');
     }
     return check;
 }
@@ -45,9 +44,9 @@ function regcr(nicklist){
 }
 
 GM.addStyle(
-  ".heey{background-color: #c39000;color: #fff;padding-left: 4px;padding-right: 4px;border-radius: 3px;} \
+  ".heey{background-color: #c39000;color: #fff;padding: 1px 4px 2px 4px;border-radius: 3px;} \
 .heey2{background-color: #cc00ff !important} \
-.slb{background-color: #f2bcff;padding-left: 3px;padding-right: 3px;border-radius: 3px 0px 0px 3px;margin-right: -5px;}\
+.slb{background-color: #cc00ff22;padding: 1px 3px 2px 3px;border-radius: 3px 0px 0px 3px;margin-right: -5px;}\
 #findNicks{position: absolute;right: 104px;color: #fff;margin-top: 5px;padding: 1px 5px;border-radius: 4px;} \
 .yesfind {background-color: #ff5310;} \
 .nofind {background-color: #aaa;} \
