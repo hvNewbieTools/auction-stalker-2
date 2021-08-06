@@ -44,9 +44,9 @@ function regcr(nicklist){
 }
 
 GM.addStyle(
-  ".heey{background-color: #c39000;color: #fff;padding: 1px 4px 2px 4px;border-radius: 3px;} \
+  ".heey{background-color: #c39000;color: #fff;padding: 1px 4px 1px 4px;border-radius: 3px;} \
 .heey2{background-color: #cc00ff !important} \
-.slb{background-color: #cc00ff22;padding: 1px 3px 2px 3px;border-radius: 3px 0px 0px 3px;margin-right: -5px;}\
+.slb{background-color: #cc00ff22;padding: 1px 3px 1px 3px;border-radius: 3px 0px 0px 3px;margin-right: -5px;}\
 #findNicks{position: absolute;right: 104px;color: #fff;margin-top: 5px;padding: 1px 5px;border-radius: 4px;} \
 .yesfind {background-color: #ff5310;} \
 .nofind {background-color: #aaa;} \
