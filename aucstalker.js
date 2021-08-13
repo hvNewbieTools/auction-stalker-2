@@ -61,7 +61,7 @@ function rC(t,s,l,rat){
   let th=t,ts=gR(s, s+10),tl=gR(l, l+10);
     let ratio=contrast(hslToRGB(th, ts, tl), [255, 255, 255]);
     if(ratio<rat){
-      tl=tl-Math.floor((rat-ratio)*10);
+      tl=tl*(ratio/rat);
     }
     return "hsla("+th+", "+ts+"%, "+tl+"%,1.0)"
 }
