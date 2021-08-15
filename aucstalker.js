@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         auc stalker 2
-// @version      0.2.4
+// @version      0.2.5
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -61,7 +61,8 @@ function rC(t,s,l,rat){
   let th=t,ts=gR(s, s+10),tl=gR(l, l+10);
     let ratio=contrast(hslToRGB(th, ts, tl), [255, 255, 255]);
     if(ratio<rat){
-      tl=tl*(ratio/rat);
+      tl=Math.round(tl*(ratio/rat));
+      if(tl<30) tl=30;
     }
     return "hsla("+th+", "+ts+"%, "+tl+"%,1.0)"
 }
