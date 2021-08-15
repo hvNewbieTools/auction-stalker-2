@@ -13,7 +13,7 @@
 const nicks=["call-lector","Ajkbyjd","KingArtson","Ikki Pop","sparroff","20Ilya","Mikle3000","mr_baka","SleepDealer","Darber1337"];
 
 const sellrange=[180,360];
-const buyrange=[30,50];
+const buyrange=[20,50];
 const sellcolors=colorRand(nicks, sellrange, 4);
 const buycolors=colorRand(nicks, buyrange, 2.5);
 
