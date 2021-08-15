@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         auc stalker 2
-// @version      0.2.3
+// @version      0.2.4
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -13,9 +13,9 @@
 const nicks=["call-lector","Ajkbyjd","KingArtson","Ikki Pop","sparroff","20Ilya","Mikle3000","mr_baka","SleepDealer","Darber1337"];
 
 const sellrange=[180,360];
-const buyrange=[30,60];
+const buyrange=[30,50];
 const sellcolors=colorRand(nicks, sellrange, 4);
-const buycolors=colorRand(nicks, buyrange, 3);
+const buycolors=colorRand(nicks, buyrange, 2.5);
 
 (function() {
     var post=document.getElementsByClassName('borderwrap');
