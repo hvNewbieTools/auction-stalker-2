@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         auc stalker 2
-// @version      0.2.5
+// @version      0.2.6
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -34,8 +34,8 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
 function replall(body, nicklist){
     let check=regcr(nicklist).test(body.innerHTML);
     if(check){
-        body.innerHTML=body.innerHTML.replace(regcr(nicklist), str => `<span class="heey" style="background-color: ${buycolors[nicks.indexOf(str)]}">${str}</span>`);
-        body.innerHTML=body.innerHTML.replace(/seller: <span class="heey" style="background-color: (.*?)">(.*?)<\/span>/g, (match, color, name) => `<span class="slb" style="background-color: ${sellcolors[nicks.indexOf(name)].replace('1.0','0.2')}">seller: </span><span class="heey" style="background-color: ${sellcolors[nicks.indexOf(name)]}">${name}</span>`);
+        body.innerHTML=body.innerHTML.replace(regcr(nicklist), str => `<span class="heey" style="background: ${buycolors[nicks.indexOf(str)]}">${str}</span><span class="blb" style="background: ${`linear-gradient(to right, `+buycolors[nicks.indexOf(str)].replace('1.0','0.3')+`, `+buycolors[nicks.indexOf(str)].replace('1.0','0')+`)`}"></span>`);
+        body.innerHTML=body.innerHTML.replace(/seller: <span class="heey" style="background: (.*?)">(.*?)<\/span><span class="blb"(.*?)<\/span>/g, (match, color, name, nvm) => `<span class="slb" style="background: ${`linear-gradient(to left, `+sellcolors[nicks.indexOf(name)].replace('1.0','0.2') +`60%, `+sellcolors[nicks.indexOf(name)].replace('1.0','0')+ `100%)`}">seller: </span><span class="heey" style="background-color: ${sellcolors[nicks.indexOf(name)]}">${name}</span>`);
     }
     return check;
 }
@@ -122,7 +122,8 @@ function hslToRGB(h, s, l) {
 
 GM.addStyle(
   ".heey{color: #fff;padding: 1px 4px 1px 4px;border-radius: 3px;} \
-.slb{padding: 1px 3px 1px 3px;border-radius: 3px 0px 0px 3px;margin-right: -5px;}\
+.slb{border-radius: 3px 0px 0px 3px;padding: 1px 3px 1px 30px;margin: 0px -5px 0px -30px;}\
+.blb{padding: 1px 155px 1px 0px;margin: 0px -145px 0px -6px;}\
 #findNicks{position: absolute;right: 104px;color: #fff;margin-top: 5px;padding: 1px 5px;border-radius: 4px;} \
 .yesfind {background-color: #ff5310;} \
 .nofind {background-color: #aaa;} \
