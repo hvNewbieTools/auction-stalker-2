@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         auc stalker 2
-// @version      0.2.6
+// @version      0.2.7
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -123,7 +123,7 @@ function hslToRGB(h, s, l) {
 GM.addStyle(
   ".heey{color: #fff;padding: 1px 4px 1px 4px;border-radius: 3px;} \
 .slb{border-radius: 3px 0px 0px 3px;padding: 1px 3px 1px 30px;margin: 0px -5px 0px -30px;}\
-.blb{padding: 1px 155px 1px 0px;margin: 0px -145px 0px -6px;}\
+.blb{padding: 1px 155px 1px 0px;margin: 0px -150px 0px -2px;}\
 #findNicks{position: absolute;right: 104px;color: #fff;margin-top: 5px;padding: 1px 5px;border-radius: 4px;} \
 .yesfind {background-color: #ff5310;} \
 .nofind {background-color: #aaa;} \
