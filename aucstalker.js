@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         auc stalker 2
-// @version      0.2.7
+// @version      0.2.8
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
+// @match        https://forums.e-hentai.org/index.php?showforum*
 // @namespace    https://github.com/hvNewbieTools
 // @updateURL    https://raw.githubusercontent.com/hvNewbieTools/auction-stalker-2/main/aucstalker.js
 // @downloadURL  https://raw.githubusercontent.com/hvNewbieTools/auction-stalker-2/main/aucstalker.js
@@ -18,18 +19,48 @@ const sellcolors=colorRand(nicks, sellrange, 4);
 const buycolors=colorRand(nicks, buyrange, 2.5);
 
 (function() {
-    var post=document.getElementsByClassName('borderwrap');
-    if(post[1].innerHTML.toLowerCase().indexOf('auction')!=-1){
-        let params=new URLSearchParams(document.location.search);
-        if(params.get("st")==null||params.get("st")==0){
+    if(/showtopic/.test(document.location.href)){
+        var post=document.getElementsByClassName('borderwrap');
+        if(post[1].innerHTML.toLowerCase().indexOf('auction')!=-1){
+            let params=new URLSearchParams(document.location.search);
+            if(params.get("st")==null||params.get("st")==0){
             var buttonfind=document.createElement("div");
             buttonfind.id='findNicks';
             buttonfind.innerHTML='friends';
             post[2].prepend(buttonfind);
             replall(post[2].children[1].children[0].children[1].children[1], nicks) ? buttonfind.classList.add("yesfind") : buttonfind.classList.add("nofind");
+            }
+        }
+    } else if(/showforum/.test(document.location.href)){
+        if(document.getElementById("userlinks")){
+            let myname=document.getElementById("userlinks").children[0].children[0].children[0].innerText;
+            //console.log(myname)
+            let topics=document.getElementsByClassName("ipbtable")[1];
+            for(let i=1;i<topics.rows.length;i++){
+                if(topics.rows[i].cells[4]){
+                    if(topics.rows[i].cells[4].innerText==myname){
+                        topics.rows[i].classList.add('myTopic');
+                        topics.rows[i].cells[4].children[0].innerHTML=`<span class="heey" style="background-color: #b37c16">`+topics.rows[i].cells[4].innerText+`</span>`;
+                        //console.log(topics.rows[i]);
+                    } else if(regcr(nicks).test(topics.rows[i].cells[4].innerText)){
+                        topics.rows[i].classList.add('friendsTopic');
+                        topics.rows[i].cells[4].children[0].innerHTML=`<span class="heey" style="background-color: `+sellcolors[nicks.indexOf(topics.rows[i].cells[4].innerText)]+`">`+topics.rows[i].cells[4].innerText+`</span>`;
+                    }
+                }
+            }
+            //console.log(myname)
         }
     }
 })();
+
+function topicfind(body, nicklist){
+    let check=regcr(nicklist).test(body.innerHTML);
+    if(check){
+        body.innerHTML=body.innerHTML.replace(regcr(nicklist), str => `<span class="heey" style="background: ${buycolors[nicks.indexOf(str)]}">${str}</span><span class="blb" style="background: ${`linear-gradient(to right, `+buycolors[nicks.indexOf(str)].replace('1.0','0.3')+`, `+buycolors[nicks.indexOf(str)].replace('1.0','0')+`)`}"></span>`);
+        body.innerHTML=body.innerHTML.replace(/seller: <span class="heey" style="background: (.*?)">(.*?)<\/span><span class="blb"(.*?)<\/span>/g, (match, color, name, nvm) => `<span class="slb" style="background: ${`linear-gradient(to left, `+sellcolors[nicks.indexOf(name)].replace('1.0','0.2') +`60%, `+sellcolors[nicks.indexOf(name)].replace('1.0','0')+ `100%)`}">seller: </span><span class="heey" style="background-color: ${sellcolors[nicks.indexOf(name)]}">${name}</span>`);
+    }
+    return check;
+}
 
 function replall(body, nicklist){
     let check=regcr(nicklist).test(body.innerHTML);
@@ -127,4 +158,8 @@ GM.addStyle(
 #findNicks{position: absolute;right: 104px;color: #fff;margin-top: 5px;padding: 1px 5px;border-radius: 4px;} \
 .yesfind {background-color: #ff5310;} \
 .nofind {background-color: #aaa;} \
+tr.myTopic {box-shadow: 0px 0px 7px 1px #ffa500;position: relative;} \
+tr.myTopic:after {content: '';position: absolute;background: #ffe00022;width: 100%;height: 100%;left: 0px;} \
+tr.friendsTopic {position: relative;} \
+tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;width: 100%;height: 100%;left: 0px;} \
 ");
