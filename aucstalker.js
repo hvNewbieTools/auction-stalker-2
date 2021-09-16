@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         auc stalker 2
-// @version      0.2.9
+// @version      0.3
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -9,6 +9,8 @@
 // @updateURL    https://raw.githubusercontent.com/hvNewbieTools/auction-stalker-2/main/aucstalker.js
 // @downloadURL  https://raw.githubusercontent.com/hvNewbieTools/auction-stalker-2/main/aucstalker.js
 // @grant        GM.addStyle
+// @grant        GM_getValue
+// @grant        GM_setValue
 // ==/UserScript==
 
 const nicks=["call-lector","Ajkbyjd","KingArtson","Ikki Pop","sparroff","20Ilya","Mikle3000","mr_baka","SleepDealer","Darber1337"];
@@ -19,6 +21,16 @@ const sellcolors=colorRand(nicks, sellrange, 4);
 const buycolors=colorRand(nicks, buyrange, 2.5);
 
 (function() {
+    if(document.getElementById("userlinks")){
+        let settingButton=document.createElement("span");
+        settingButton.innerHTML=`AucStalker`;
+        settingButton.id="StalkerSetting";
+        settingButton.onclick = function () {
+            showSetting();
+        }
+        document.getElementById("userlinks").children[1].prepend(" ·");
+        document.getElementById("userlinks").children[1].prepend(settingButton);
+    }
     if(/showtopic/.test(document.location.href)){
         var post=document.getElementsByClassName('borderwrap');
         if(post[1].innerHTML.toLowerCase().indexOf('auction')!=-1){
@@ -33,8 +45,7 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
         }
     } else if(/showforum/.test(document.location.href)){
         if(document.getElementById("userlinks")){
-            let myname=document.getElementById("userlinks").children[0].children[0].children[0].innerText;
-            //console.log(myname)
+            let myname=getMyNickname();
             let topics=document.getElementsByClassName("ipbtable")[1];
             for(let i=1;i<topics.rows.length;i++){
                 if(topics.rows[i].cells[4]){
@@ -48,10 +59,73 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
                     }
                 }
             }
-            //console.log(myname)
         }
     }
 })();
+
+function showSetting(){
+    let stalkerSetting=document.createElement("div");
+    stalkerSetting.id="stalkerSetting";
+
+    let stalkerSettingInner=document.createElement("div");
+    stalkerSettingInner.className="borderwrap";
+    stalkerSetting.append(stalkerSettingInner);
+
+    let stalkerSettingHeader=document.createElement("div");
+    stalkerSettingHeader.className="maintitle";
+    stalkerSettingHeader.innerHTML=`<div style="float:right"><a href="#" onclick="document.getElementById(&quot;get-myassistant&quot;).style.display=&quot;none&quot;">[X]</a></div><div>Настройки AucStalker 2</div>`
+    stalkerSettingInner.append(stalkerSettingHeader);
+
+    let stalkerSettingMain=document.createElement("div");
+    stalkerSettingMain.id="stalkerSettingMain";
+    stalkerSettingMain.className="row1";
+    stalkerSettingInner.append(stalkerSettingMain);
+
+    //настройки ника
+    let stlSet1=document.createElement("div");
+    stlSet1.className="stlSet";
+    stalkerSettingMain.append(stlSet1);
+
+    let nickLabel=document.createElement("label");
+    nickLabel.className="stlLabel";
+    nickLabel.innerText="Мой никнейм:"
+    stlSet1.append(nickLabel);
+
+    let mynick=document.createElement("input");
+    mynick.type="text";
+    mynick.style.width="250px";
+    mynick.style.paddingLeft="5px";
+    mynick.value=getMyNickname();
+    stlSet1.append(mynick);
+
+    //сохранить
+    let stalkerSettingSave = document.createElement('button');
+    stalkerSettingSave.innerText="Save";
+    stalkerSettingSave.className="stlButton"
+    stalkerSettingMain.append(stalkerSettingSave);
+
+    stalkerSettingSave.onclick = function () {
+        GM_setValue("myNick", mynick.value);
+        stalkerSetting.parentNode.removeChild(stalkerSetting);
+        location.reload();
+    }
+
+    document.body.append(stalkerSetting);
+    stalkerSettingHeader.children[0].onclick = function () {
+        stalkerSetting.parentNode.removeChild(stalkerSetting);
+    }
+
+}
+function getMyNickname(){
+    let nick=GM_getValue("myNick"); //загрузка сессии
+    if(!nick){
+        let myname=document.getElementById("userlinks").children[0].children[0].children[0].innerText;
+        GM_setValue("myNick", myname)
+        nick=myname;
+    }
+    return nick;
+}
+
 
 function topicfind(body, nicklist){
     let check=regcr(nicklist).test(body.innerHTML);
@@ -162,4 +236,10 @@ tr.myTopic {box-shadow: 0px 0px 7px 1px #ffa500;position: relative;} \
 tr.myTopic:after {content: '';position: absolute;background: #ffe00022;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
 tr.friendsTopic {position: relative;} \
 tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
+#StalkerSetting{opacity: 0.8;cursor: pointer;text-decoration: underline;} \
+#stalkerSetting{width: 400px;position: fixed;left: 50%;top: 30%;margin-left: -200px;border: 1px solid #000;} \
+#stalkerSettingMain{} \
+.stlSet {padding-bottom: 10px;border: #0005 solid;border-width: 0px 0px 1px 0px;} \
+.stlLabel{cursor: default;} \
+.stlButton{margin: 10px 0px; cursor: pointer;} \
 ");
