@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         auc stalker 2
-// @version      0.3
-// @description  try to take over the world!
+// @name         forumStalker
+// @version      0.3.1
+// @description  Подсветка друзяшек (и врагов) в на форуме и аукционах
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
 // @match        https://forums.e-hentai.org/index.php?showforum*
@@ -23,7 +23,7 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
 (function() {
     if(document.getElementById("userlinks")){
         let settingButton=document.createElement("span");
-        settingButton.innerHTML=`AucStalker`;
+        settingButton.innerHTML=`forumStalker`;
         settingButton.id="StalkerSetting";
         settingButton.onclick = function () {
             showSetting();
@@ -73,7 +73,7 @@ function showSetting(){
 
     let stalkerSettingHeader=document.createElement("div");
     stalkerSettingHeader.className="maintitle";
-    stalkerSettingHeader.innerHTML=`<div style="float:right"><a href="#" onclick="document.getElementById(&quot;get-myassistant&quot;).style.display=&quot;none&quot;">[X]</a></div><div>Настройки AucStalker 2</div>`
+    stalkerSettingHeader.innerHTML=`<div style="float:right"><a href="#" onclick="document.getElementById(&quot;get-myassistant&quot;).style.display=&quot;none&quot;">[X]</a></div><div>Настройки forumStalker</div>`
     stalkerSettingInner.append(stalkerSettingHeader);
 
     let stalkerSettingMain=document.createElement("div");
@@ -117,7 +117,7 @@ function showSetting(){
 
 }
 function getMyNickname(){
-    let nick=GM_getValue("myNick"); //загрузка сессии
+    let nick=GM_getValue("myNick");
     if(!nick){
         let myname=document.getElementById("userlinks").children[0].children[0].children[0].innerText;
         GM_setValue("myNick", myname)
