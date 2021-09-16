@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         auc stalker 2
-// @version      0.2.8
+// @version      0.2.9
 // @description  try to take over the world!
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -44,7 +44,7 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
                         //console.log(topics.rows[i]);
                     } else if(regcr(nicks).test(topics.rows[i].cells[4].innerText)){
                         topics.rows[i].classList.add('friendsTopic');
-                        topics.rows[i].cells[4].children[0].innerHTML=`<span class="heey" style="background-color: `+sellcolors[nicks.indexOf(topics.rows[i].cells[4].innerText)]+`">`+topics.rows[i].cells[4].innerText+`</span>`;
+                        topics.rows[i].cells[4].children[0].innerHTML=`<span class="heey" style="background-color: `+sellcolors[nicks.indexOf(topics.rows[i].cells[4].innerText)]+`">`+topics.rows[i].cells[4].children[0].innerHTML+`</span>`;
                     }
                 }
             }
@@ -159,7 +159,7 @@ GM.addStyle(
 .yesfind {background-color: #ff5310;} \
 .nofind {background-color: #aaa;} \
 tr.myTopic {box-shadow: 0px 0px 7px 1px #ffa500;position: relative;} \
-tr.myTopic:after {content: '';position: absolute;background: #ffe00022;width: 100%;height: 100%;left: 0px;} \
+tr.myTopic:after {content: '';position: absolute;background: #ffe00022;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
 tr.friendsTopic {position: relative;} \
-tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;width: 100%;height: 100%;left: 0px;} \
+tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
 ");
