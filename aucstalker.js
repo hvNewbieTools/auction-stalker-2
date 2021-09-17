@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         forumStalker
-// @version      0.3.1
+// @version      0.3.2
 // @description  Подсветка друзяшек (и врагов) в на форуме и аукционах
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -11,9 +11,10 @@
 // @grant        GM.addStyle
 // @grant        GM_getValue
 // @grant        GM_setValue
+// @grant        GM_deleteValue
 // ==/UserScript==
 
-const nicks=["call-lector","Ajkbyjd","KingArtson","Ikki Pop","sparroff","20Ilya","Mikle3000","mr_baka","SleepDealer","Darber1337"];
+var nicks=loadNicknames();
 
 const sellrange=[180,360];
 const buyrange=[20,50];
@@ -93,10 +94,23 @@ function showSetting(){
 
     let mynick=document.createElement("input");
     mynick.type="text";
-    mynick.style.width="250px";
+    mynick.style.width="150px";
     mynick.style.paddingLeft="5px";
     mynick.value=getMyNickname();
     stlSet1.append(mynick);
+
+    //ники для сталкинга
+    let stlSet2=document.createElement("div");
+    stlSet2.className="stlSet";
+    stalkerSettingMain.append(stlSet2);
+    stlSet2.innerHTML="<span>Ники для сталкинга:</span><br>"
+
+    let nicksArea = document.createElement('textarea');
+    nicksArea.id="nicksArea";
+    nicksArea.value=formNicknamesGet(nicks);
+    stlSet2.append(nicksArea);
+
+
 
     //сохранить
     let stalkerSettingSave = document.createElement('button');
@@ -106,7 +120,19 @@ function showSetting(){
 
     stalkerSettingSave.onclick = function () {
         GM_setValue("myNick", mynick.value);
+        GM_setValue("nicknames", formNicknamesSet(nicksArea.value));
         stalkerSetting.parentNode.removeChild(stalkerSetting);
+        location.reload();
+    }
+    //ресет
+    let stalkerSettingReset = document.createElement('button');
+    stalkerSettingReset.innerText="Reset";
+    stalkerSettingReset.className="stlButton"
+    stalkerSettingMain.append(stalkerSettingReset);
+
+    stalkerSettingReset.onclick = function () {
+        GM_deleteValue("myNick");
+        GM_deleteValue("nicknames");
         location.reload();
     }
 
@@ -125,6 +151,36 @@ function getMyNickname(){
     }
     return nick;
 }
+
+function loadNicknames(){
+    let nicknames=GM_getValue("nicknames");
+    if(!nicknames){
+        let ruslist=["sparroff","call-lector","Ajkbyjd","KingArtson","Ikki Pop","20Ilya","Mikle3000","mr_baka","SleepDealer","Darber1337"];
+        GM_setValue("nicknames", ruslist)
+        nicknames=ruslist;
+    }
+    return nicknames;
+}
+
+function formNicknamesGet(arr){
+    let list="";
+    for(let i=0;i<arr.length;i++){
+        list+=arr[i];
+        if(i!=arr.length-1) list+="\n"
+    }
+    return list;
+}
+
+function formNicknamesSet(str){
+    let arr=[];
+    let temp=str.split("\n");
+    for(let i=0;i<temp.length;i++){
+        arr.push(temp[i])
+    }
+    return arr;
+}
+
+
 
 
 function topicfind(body, nicklist){
@@ -237,9 +293,10 @@ tr.myTopic:after {content: '';position: absolute;background: #ffe00022;width: 10
 tr.friendsTopic {position: relative;} \
 tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
 #StalkerSetting{opacity: 0.8;cursor: pointer;text-decoration: underline;} \
-#stalkerSetting{width: 400px;position: fixed;left: 50%;top: 30%;margin-left: -200px;border: 1px solid #000;} \
+#stalkerSetting{width: 300px;position: fixed;left: 50%;top: 30%;margin-left: -200px;border: 1px solid #000;} \
 #stalkerSettingMain{} \
-.stlSet {padding-bottom: 10px;border: #0005 solid;border-width: 0px 0px 1px 0px;} \
+.stlSet {padding: 5px 5px;border: #0005 solid;border-width: 0px 0px 1px 0px;} \
 .stlLabel{cursor: default;} \
-.stlButton{margin: 10px 0px; cursor: pointer;} \
+.stlButton{margin: 10px 5px; cursor: pointer;} \
+#nicksArea{margin: 5px; width: 250px; height: 212px;resize: none;} \
 ");
