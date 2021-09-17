@@ -298,5 +298,5 @@ tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;widt
 .stlSet {padding: 5px 5px;border: #0005 solid;border-width: 0px 0px 1px 0px;} \
 .stlLabel{cursor: default;} \
 .stlButton{margin: 10px 5px; cursor: pointer;} \
-#nicksArea{margin: 5px; width: 250px; height: 212px;resize: none;} \
+#nicksArea{margin: 5px; width: 250px; height: 212px;resize: none; padding: 5px;} \
 ");
