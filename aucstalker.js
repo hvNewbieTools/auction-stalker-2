@@ -293,6 +293,7 @@ tr.myTopic:after {content: '';position: absolute;background: #ffe00022;width: 10
 tr.friendsTopic {position: relative;} \
 tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
 #StalkerSetting{opacity: 0.6;cursor: pointer;text-decoration: underline;} \
+#StalkerSetting:hover{opacity: 1;} \
 #stalkerSetting{width: 300px;position: fixed;left: 50%;top: 30%;margin-left: -200px;border: 1px solid #000;} \
 #stalkerSettingMain{} \
 .stlSet {padding: 5px 5px;border: #0005 solid;border-width: 0px 0px 1px 0px;} \
