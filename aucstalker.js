@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         forumStalker
-// @version      0.3.2
+// @version      0.3.3
 // @description  Подсветка друзяшек (и врагов) в на форуме и аукционах
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -37,11 +37,11 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
         if(post[1].innerHTML.toLowerCase().indexOf('auction')!=-1){
             let params=new URLSearchParams(document.location.search);
             if(params.get("st")==null||params.get("st")==0){
-            var buttonfind=document.createElement("div");
-            buttonfind.id='findNicks';
-            buttonfind.innerHTML='friends';
-            post[2].prepend(buttonfind);
-            replall(post[2].children[1].children[0].children[1].children[1], nicks) ? buttonfind.classList.add("yesfind") : buttonfind.classList.add("nofind");
+                var buttonfind=document.createElement("div");
+                buttonfind.id='findNicks';
+                buttonfind.innerHTML='friends';
+                post[2].prepend(buttonfind);
+                replall(post[2].children[1].children[0].children[1].children[1], nicks) ? buttonfind.classList.add("yesfind") : buttonfind.classList.add("nofind");
             }
         }
     } else if(/showforum/.test(document.location.href)){
@@ -53,7 +53,6 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
                     if(topics.rows[i].cells[4].innerText==myname){
                         topics.rows[i].classList.add('myTopic');
                         topics.rows[i].cells[4].children[0].innerHTML=`<span class="heey" style="background-color: #b37c16">`+topics.rows[i].cells[4].innerText+`</span>`;
-                        //console.log(topics.rows[i]);
                     } else if(regcr(nicks).test(topics.rows[i].cells[4].innerText)){
                         topics.rows[i].classList.add('friendsTopic');
                         topics.rows[i].cells[4].children[0].innerHTML=`<span class="heey" style="background-color: `+sellcolors[nicks.indexOf(topics.rows[i].cells[4].innerText)]+`">`+topics.rows[i].cells[4].children[0].innerHTML+`</span>`;
@@ -94,8 +93,7 @@ function showSetting(){
 
     let mynick=document.createElement("input");
     mynick.type="text";
-    mynick.style.width="150px";
-    mynick.style.paddingLeft="5px";
+    mynick.id="mynick";
     mynick.value=getMyNickname();
     stlSet1.append(mynick);
 
@@ -180,18 +178,6 @@ function formNicknamesSet(str){
     return arr;
 }
 
-
-
-
-function topicfind(body, nicklist){
-    let check=regcr(nicklist).test(body.innerHTML);
-    if(check){
-        body.innerHTML=body.innerHTML.replace(regcr(nicklist), str => `<span class="heey" style="background: ${buycolors[nicks.indexOf(str)]}">${str}</span><span class="blb" style="background: ${`linear-gradient(to right, `+buycolors[nicks.indexOf(str)].replace('1.0','0.3')+`, `+buycolors[nicks.indexOf(str)].replace('1.0','0')+`)`}"></span>`);
-        body.innerHTML=body.innerHTML.replace(/seller: <span class="heey" style="background: (.*?)">(.*?)<\/span><span class="blb"(.*?)<\/span>/g, (match, color, name, nvm) => `<span class="slb" style="background: ${`linear-gradient(to left, `+sellcolors[nicks.indexOf(name)].replace('1.0','0.2') +`60%, `+sellcolors[nicks.indexOf(name)].replace('1.0','0')+ `100%)`}">seller: </span><span class="heey" style="background-color: ${sellcolors[nicks.indexOf(name)]}">${name}</span>`);
-    }
-    return check;
-}
-
 function replall(body, nicklist){
     let check=regcr(nicklist).test(body.innerHTML);
     if(check){
@@ -210,20 +196,20 @@ function regcr(nicklist){
 }
 
 function colorRand(nicks, range, rat){
-  let s=80,l=50,arr=[], offs=Math.floor((range[1]-range[0])/(nicks.length-1));
-  for(let i=0;i<nicks.length;i++){
-    let th=offs*i+range[0];
-    arr.push(rC(th,s,l,rat))
-  }
-  return mixarr(arr)
+    let s=80,l=50,arr=[], offs=Math.floor((range[1]-range[0])/(nicks.length-1));
+    for(let i=0;i<nicks.length;i++){
+        let th=offs*i+range[0];
+        arr.push(rC(th,s,l,rat))
+    }
+    return mixarr(arr)
 }
 
 function rC(t,s,l,rat){
-  let th=t,ts=gR(s, s+10),tl=gR(l, l+10);
+    let th=t,ts=gR(s, s+10),tl=gR(l, l+10);
     let ratio=contrast(hslToRGB(th, ts, tl), [255, 255, 255]);
     if(ratio<rat){
-      tl=Math.round(tl*(ratio/rat));
-      if(tl<30) tl=30;
+        tl=Math.round(tl*(ratio/rat));
+        if(tl<30) tl=30;
     }
     return "hsla("+th+", "+ts+"%, "+tl+"%,1.0)"
 }
@@ -235,7 +221,7 @@ function gR(min, max) {
 }
 
 function mixarr(arr){
-   return arr.map(i=>[Math.random(), i]).sort().map(i=>i[1])
+    return arr.map(i=>[Math.random(), i]).sort().map(i=>i[1])
 }
 
 function luminance(r, g, b) {
@@ -243,7 +229,7 @@ function luminance(r, g, b) {
         v /= 255;
         return v <= 0.03928
             ? v / 12.92
-            : Math.pow( (v + 0.055) / 1.055, 2.4 );
+        : Math.pow( (v + 0.055) / 1.055, 2.4 );
     });
     return a[0] * 0.2126 + a[1] * 0.7152 + a[2] * 0.0722;
 }
@@ -253,36 +239,36 @@ function contrast(rgb1, rgb2) {
     var brightest = Math.max(lum1, lum2);
     var darkest = Math.min(lum1, lum2);
     return (brightest + 0.05)
-         / (darkest + 0.05);
+    / (darkest + 0.05);
 }
 
 function hslToRGB(h, s, l) {
-  h /= 360;
-  s /= 100;
-  l /= 100;
-  let r, g, b;
-  if (s === 0) {
-    r = g = b = l; // achromatic
-  } else {
-    const hue2rgb = (p, q, t) => {
-      if (t < 0) t += 1;
-      if (t > 1) t -= 1;
-      if (t < 1 / 6) return p + (q - p) * 6 * t;
-      if (t < 1 / 2) return q;
-      if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-      return p;
-    };
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1 / 3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1 / 3);
-  }
-  return [Math.floor(r*255),Math.floor(g*255),Math.floor(b*255)];
+    h /= 360;
+    s /= 100;
+    l /= 100;
+    let r, g, b;
+    if (s === 0) {
+        r = g = b = l; // achromatic
+    } else {
+        const hue2rgb = (p, q, t) => {
+            if (t < 0) t += 1;
+            if (t > 1) t -= 1;
+            if (t < 1 / 6) return p + (q - p) * 6 * t;
+            if (t < 1 / 2) return q;
+            if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+            return p;
+        };
+        const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+        const p = 2 * l - q;
+        r = hue2rgb(p, q, h + 1 / 3);
+        g = hue2rgb(p, q, h);
+        b = hue2rgb(p, q, h - 1 / 3);
+    }
+    return [Math.floor(r*255),Math.floor(g*255),Math.floor(b*255)];
 }
 
 GM.addStyle(
-  ".heey{color: #fff;padding: 1px 4px 1px 4px;border-radius: 3px;} \
+    ".heey{color: #fff;padding: 1px 4px 1px 4px;border-radius: 3px;} \
 .slb{border-radius: 3px 0px 0px 3px;padding: 1px 3px 1px 30px;margin: 0px -5px 0px -30px;}\
 .blb{padding: 1px 155px 1px 0px;margin: 0px -150px 0px -2px;}\
 #findNicks{position: absolute;right: 104px;color: #fff;margin-top: 5px;padding: 1px 5px;border-radius: 4px;} \
@@ -299,5 +285,6 @@ tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;widt
 .stlSet {padding: 5px 5px;border: #0005 solid;border-width: 0px 0px 1px 0px;} \
 .stlLabel{cursor: default;} \
 .stlButton{margin: 10px 5px; cursor: pointer;} \
+#mynick{width: 150px; padding-left:5px;} \
 #nicksArea{margin: 5px; width: 250px; height: 212px;resize: none; padding: 5px;} \
 ");
