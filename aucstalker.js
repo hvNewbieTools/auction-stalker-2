@@ -284,7 +284,7 @@ tr.myTopic:after {content: '';position: absolute;background: #ffe00022;width: 10
 tr.friendsTopic {position: relative;} \
 tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
 tr.auctionTopic {position: relative;} \
-tr.auctionTopic:after {content: '';position: absolute;background: #00ff144a;background-image: url(https://i.imgur.com/0fIBzks.png);opacity: 0.15;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
+tr.auctionTopic:after {content: '';position: absolute;background: #00ff14a6;background-image: url(https://i.imgur.com/0fIBzks.png);opacity: 0.12;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
 #StalkerSetting{opacity: 0.6;cursor: pointer;text-decoration: underline;} \
 #StalkerSetting:hover{opacity: 1;} \
 #stalkerSetting{width: 300px;position: fixed;left: 50%;top: 30%;margin-left: -200px;border: 1px solid #000;} \
