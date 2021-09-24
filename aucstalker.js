@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         forumStalker
-// @version      0.3.3
+// @version      0.3.5
 // @description  Подсветка друзяшек (и врагов) в на форуме и аукционах
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -50,7 +50,8 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
             let topics=document.getElementsByClassName("ipbtable")[1];
             for(let i=1;i<topics.rows.length;i++){
                 if(topics.rows[i].cells[4]){
-                    if(topics.rows[i].cells[4].innerText==myname){
+                    if(/auction/.test(topics.rows[i].cells[2].innerText.toLowerCase()))topics.rows[i].classList.add('auctionTopic');
+                    else if(topics.rows[i].cells[4].innerText==myname){
                         topics.rows[i].classList.add('myTopic');
                         topics.rows[i].cells[4].children[0].innerHTML=`<span class="heey" style="background-color: #b37c16">`+topics.rows[i].cells[4].innerText+`</span>`;
                     } else if(regcr(nicks).test(topics.rows[i].cells[4].innerText)){
@@ -173,7 +174,7 @@ function formNicknamesSet(str){
     let arr=[];
     let temp=str.split("\n");
     for(let i=0;i<temp.length;i++){
-        arr.push(temp[i])
+        if(temp[i]!="") arr.push(temp[i]);
     }
     return arr;
 }
@@ -278,6 +279,8 @@ tr.myTopic {box-shadow: 0px 0px 7px 1px #ffa500;position: relative;} \
 tr.myTopic:after {content: '';position: absolute;background: #ffe00022;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
 tr.friendsTopic {position: relative;} \
 tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
+tr.auctionTopic {position: relative;} \
+tr.auctionTopic:after {content: '';position: absolute;background: #00ff144a;background-image: url(https://i.imgur.com/0fIBzks.png);opacity: 0.15;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
 #StalkerSetting{opacity: 0.6;cursor: pointer;text-decoration: underline;} \
 #StalkerSetting:hover{opacity: 1;} \
 #stalkerSetting{width: 300px;position: fixed;left: 50%;top: 30%;margin-left: -200px;border: 1px solid #000;} \
