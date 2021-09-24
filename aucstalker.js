@@ -50,7 +50,7 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
             let topics=document.getElementsByClassName("ipbtable")[1];
             for(let i=1;i<topics.rows.length;i++){
                 if(topics.rows[i].cells[4]){
-                    if(/auction/.test(topics.rows[i].cells[2].innerText.toLowerCase())){
+                    if(/\[auction\]/.test(topics.rows[i].cells[2].innerText.toLowerCase())){
                         topics.rows[i].classList.add('auctionTopic');
                         if(topics.rows[i].cells[4].innerText==myname) topics.rows[i].cells[4].children[0].innerHTML=`<span class="heey" style="background-color: #b37c16">`+topics.rows[i].cells[4].innerText+`</span>`;
                         else if(regcr(nicks).test(topics.rows[i].cells[4].innerText)) topics.rows[i].cells[4].children[0].innerHTML=`<span class="heey" style="background-color: `+sellcolors[nicks.indexOf(topics.rows[i].cells[4].innerText)]+`">`+topics.rows[i].cells[4].children[0].innerHTML+`</span>`;
