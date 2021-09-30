@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         forumStalker
-// @version      0.3.8
+// @version      0.3.9
 // @description  Подсветка друзяшек (и врагов) в на форуме и аукционах
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -287,7 +287,7 @@ tr.auctionTopic {position: relative;} \
 tr.auctionTopic:after {content: '';position: absolute;background: #00ff1473;background-image: url(https://i.imgur.com/0fIBzks.png);opacity: 0.15;width: 100%;height: 100%;left: 0px;pointer-events: none;-webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 0) 55%);} \
 #StalkerSetting{opacity: 0.6;cursor: pointer;text-decoration: underline;} \
 #StalkerSetting:hover{opacity: 1;} \
-#stalkerSetting{width: 300px;position: fixed;left: 50%;top: 30%;margin-left: -200px;border: 1px solid #000;} \
+#stalkerSetting{width: 300px;position: fixed;left: 50%;top: 30%;margin-left: -200px;border: 1px solid #000; z-index: 2;} \
 #stalkerSettingMain{} \
 .stlSet {padding: 5px 5px;border: #0005 solid;border-width: 0px 0px 1px 0px;} \
 .stlLabel{cursor: default;} \
