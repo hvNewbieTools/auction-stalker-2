@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         forumStalker
-// @version      0.3.9
+// @version      0.3.10
 // @description  Подсветка друзяшек (и врагов) в на форуме и аукционах
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -15,6 +15,7 @@
 // ==/UserScript==
 
 var nicks=loadNicknames();
+addme(nicks);
 
 const sellrange=[180,360];
 const buyrange=[20,50];
@@ -110,7 +111,7 @@ function showSetting(){
 
     let nicksArea = document.createElement('textarea');
     nicksArea.id="nicksArea";
-    nicksArea.value=formNicknamesGet(nicks);
+    nicksArea.value=formNicknamesGet(loadNicknames());
     stlSet2.append(nicksArea);
 
 
@@ -163,6 +164,10 @@ function loadNicknames(){
         nicknames=ruslist;
     }
     return nicknames;
+}
+function addme(arr){
+    let mynames=GM_getValue("myNick");
+    if(mynames&&arr.indexOf(mynames)==-1) arr.push(mynames);
 }
 
 function formNicknamesGet(arr){
