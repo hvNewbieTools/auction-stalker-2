@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         forumStalker
-// @version      0.3.10
+// @version      0.3.12
 // @description  Подсветка друзяшек (и врагов) в на форуме и аукционах
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -28,7 +28,7 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
         settingButton.innerHTML=`forumStalker`;
         settingButton.id="StalkerSetting";
         settingButton.onclick = function () {
-            showSetting();
+            if(!document.getElementById('stalkerSetting')) showSetting();
         }
         document.getElementById("userlinks").children[1].prepend(" ·");
         document.getElementById("userlinks").children[1].prepend(settingButton);
@@ -79,7 +79,7 @@ function showSetting(){
 
     let stalkerSettingHeader=document.createElement("div");
     stalkerSettingHeader.className="maintitle";
-    stalkerSettingHeader.innerHTML=`<div style="float:right"><a href="#" onclick="document.getElementById(&quot;get-myassistant&quot;).style.display=&quot;none&quot;">[X]</a></div><div>Настройки forumStalker</div>`
+    stalkerSettingHeader.innerHTML=`<div style="float:right"><a href="#" onclick="document.getElementById(&quot;get-myassistant&quot;).style.display=&quot;none&quot;">[X]</a></div><div>forumStalker settings</div>`
     stalkerSettingInner.append(stalkerSettingHeader);
 
     let stalkerSettingMain=document.createElement("div");
@@ -94,7 +94,7 @@ function showSetting(){
 
     let nickLabel=document.createElement("label");
     nickLabel.className="stlLabel";
-    nickLabel.innerText="Мой никнейм:"
+    nickLabel.innerText="My nickname:"
     stlSet1.append(nickLabel);
 
     let mynick=document.createElement("input");
@@ -107,14 +107,12 @@ function showSetting(){
     let stlSet2=document.createElement("div");
     stlSet2.className="stlSet";
     stalkerSettingMain.append(stlSet2);
-    stlSet2.innerHTML="<span>Ники для сталкинга:</span><br>"
+    stlSet2.innerHTML="<span>Nicknames for stalking:</span><br>"
 
     let nicksArea = document.createElement('textarea');
     nicksArea.id="nicksArea";
     nicksArea.value=formNicknamesGet(loadNicknames());
     stlSet2.append(nicksArea);
-
-
 
     //сохранить
     let stalkerSettingSave = document.createElement('button');
@@ -125,24 +123,26 @@ function showSetting(){
     stalkerSettingSave.onclick = function () {
         GM_setValue("myNick", mynick.value);
         GM_setValue("nicknames", formNicknamesSet(nicksArea.value));
-        stalkerSetting.parentNode.removeChild(stalkerSetting);
+        document.querySelector('#stalkerSetting').remove();
         location.reload();
     }
+
     //ресет
     let stalkerSettingReset = document.createElement('button');
-    stalkerSettingReset.innerText="Reset";
+    stalkerSettingReset.innerText="Close";
     stalkerSettingReset.className="stlButton"
     stalkerSettingMain.append(stalkerSettingReset);
 
     stalkerSettingReset.onclick = function () {
-        GM_deleteValue("myNick");
-        GM_deleteValue("nicknames");
-        location.reload();
+        //GM_deleteValue("myNick");
+        //GM_deleteValue("nicknames");
+        //location.reload();
+        document.querySelector('#stalkerSetting').remove();
     }
 
     document.body.append(stalkerSetting);
     stalkerSettingHeader.children[0].onclick = function () {
-        stalkerSetting.parentNode.removeChild(stalkerSetting);
+        document.querySelector('#stalkerSetting').remove();
     }
 
 }
@@ -159,9 +159,9 @@ function getMyNickname(){
 function loadNicknames(){
     let nicknames=GM_getValue("nicknames");
     if(!nicknames){
-        let ruslist=["sparroff","call-lector","Ajkbyjd","KingArtson","Ikki Pop","20Ilya","Mikle3000","mr_baka","SleepDealer","Darber1337"];
-        GM_setValue("nicknames", ruslist)
-        nicknames=ruslist;
+        let list=[];
+        GM_setValue("nicknames", list)
+        nicknames=list;
     }
     return nicknames;
 }
@@ -206,7 +206,8 @@ function regcr(nicklist){
 }
 
 function colorRand(nicks, range, rat){
-    let s=80,l=50,arr=[], offs=Math.floor((range[1]-range[0])/(nicks.length-1));
+    let s=80,l=50,arr=[], offs;
+    nicks.length>1?offs=Math.floor((range[1]-range[0])/(nicks.length-1)):offs=Math.floor((range[1]-range[0])/(nicks.length));
     for(let i=0;i<nicks.length;i++){
         let th=offs*i+range[0];
         arr.push(rC(th,s,l,rat))
@@ -277,26 +278,117 @@ function hslToRGB(h, s, l) {
     return [Math.floor(r*255),Math.floor(g*255),Math.floor(b*255)];
 }
 
-GM.addStyle(
-    ".heey{color: #fff;padding: 1px 4px 1px 4px;border-radius: 3px;} \
-.slb{border-radius: 3px 0px 0px 3px;padding: 1px 3px 1px 30px;margin: 0px -5px 0px -30px;}\
-.blb{padding: 1px 155px 1px 0px;margin: 0px -150px 0px -2px;}\
-#findNicks{position: absolute;right: 104px;color: #fff;margin-top: 5px;padding: 1px 5px;border-radius: 4px;} \
-.yesfind {background-color: #ff5310;} \
-.nofind {background-color: #aaa;} \
-tr.myTopic {position: relative;} \
-tr.myTopic:after {content: '';position: absolute; z-index: 1; box-shadow: 0px 0px 7px 1px #ffa500;background: #ffe00022;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
-tr.friendsTopic {position: relative;} \
-tr.friendsTopic:after {content: '';position: absolute;background: #f894ff1f;width: 100%;height: 100%;left: 0px;pointer-events: none;} \
-tr.auctionTopic {position: relative;} \
-tr.auctionTopic:after {content: '';position: absolute;background: #00ff1473;background-image: url(https://i.imgur.com/0fIBzks.png);opacity: 0.15;width: 100%;height: 100%;left: 0px;pointer-events: none;-webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 0) 55%);} \
-#StalkerSetting{opacity: 0.6;cursor: pointer;text-decoration: underline;} \
-#StalkerSetting:hover{opacity: 1;} \
-#stalkerSetting{width: 300px;position: fixed;left: 50%;top: 30%;margin-left: -200px;border: 1px solid #000; z-index: 2;} \
-#stalkerSettingMain{} \
-.stlSet {padding: 5px 5px;border: #0005 solid;border-width: 0px 0px 1px 0px;} \
-.stlLabel{cursor: default;} \
-.stlButton{margin: 10px 5px; cursor: pointer;} \
-#mynick{width: 150px; padding-left:5px;} \
-#nicksArea{margin: 5px; width: 250px; height: 212px;resize: none; padding: 5px;} \
-");
+GM.addStyle(`
+.heey {
+	color: #fff;
+	padding: 1px 4px 1px 4px;
+	border-radius: 3px;
+}
+.slb {
+	border-radius: 3px 0px 0px 3px;
+	padding: 1px 3px 1px 30px;
+	margin: 0px -5px 0px -30px;
+}
+.blb {
+	padding: 1px 155px 1px 0px;
+	margin: 0px -150px 0px -2px;
+}
+#findNicks {
+	position: absolute;
+	right: 104px;
+	color: #fff;
+	margin-top: 5px;
+	padding: 1px 5px;
+	border-radius: 4px;
+}
+.yesfind {
+	background-color: #ff5310;
+}
+.nofind {
+	background-color: #aaa;
+}
+tr.myTopic {
+	position: relative;
+}
+tr.myTopic:after {
+	content: '';
+	position: absolute;
+	z-index: 1;
+	box-shadow: 0px 0px 7px 1px #ffa500;
+	background: #ffe00022;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	pointer-events: none;
+}
+tr.friendsTopic {
+	position: relative;
+}
+tr.friendsTopic:after {
+	content: '';
+	position: absolute;
+	background: #f894ff1f;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	pointer-events: none;
+}
+tr.auctionTopic {
+	position: relative;
+}
+tr.auctionTopic:after {
+	content: '';
+	position: absolute;
+	background: #00ff1473;
+	background-image: url(https://i.imgur.com/0fIBzks.png);
+	opacity: 0.15;
+	width: 100%;
+	height: 100%;
+	left: 0px;
+	pointer-events: none;
+	-webkit-mask-image: linear-gradient(to right, rgba(0, 0, 0, 1) 15%, rgba(0, 0, 0, 0) 55%);
+}
+#StalkerSetting {
+	opacity: 0.6;
+	cursor: pointer;
+	text-decoration: underline;
+}
+#StalkerSetting:hover {
+	opacity: 1;
+}
+#stalkerSetting {
+	width: 300px;
+	position: fixed;
+	left: 50%;
+	top: 30%;
+	margin-left: -200px;
+	border: 1px solid #000;
+	z-index: 2;
+}
+#stalkerSettingMain {}
+
+.stlSet {
+	padding: 5px 5px;
+	border: #0005 solid;
+	border-width: 0px 0px 1px 0px;
+}
+.stlLabel {
+	cursor: default;
+}
+.stlButton {
+	margin: 10px 5px;
+	cursor: pointer;
+}
+#mynick {
+	width: 150px;
+	padding-left: 5px;
+	margin-top: 3px;
+}
+#nicksArea {
+	margin: 5px;
+	width: 250px;
+	height: 212px;
+	resize: none;
+	padding: 5px;
+}
+`);
