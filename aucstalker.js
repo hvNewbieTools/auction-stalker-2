@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         forumStalker
-// @version      0.3.12
+// @version      0.3.13
 // @description  Подсветка друзяшек (и врагов) в на форуме и аукционах
 // @author       sparroff
 // @match        https://forums.e-hentai.org/index.php?showtopic*
@@ -40,7 +40,7 @@ const buycolors=colorRand(nicks, buyrange, 2.5);
             if(params.get("st")==null||params.get("st")==0){
                 var buttonfind=document.createElement("div");
                 buttonfind.id='findNicks';
-                buttonfind.innerHTML='friends';
+                //buttonfind.innerHTML='friends';
                 post[2].prepend(buttonfind);
                 replall(post[2].children[1].children[0].children[1].children[1], nicks) ? buttonfind.classList.add("yesfind") : buttonfind.classList.add("nofind");
             }
@@ -294,6 +294,16 @@ GM.addStyle(`
 	margin: 0px -150px 0px -2px;
 }
 #findNicks {
+    position: absolute;
+    right: 104px;
+    color: #fff;
+    margin-top: 7px;
+    /* padding: 1px 5px; */
+    border-radius: 14px;
+    width: 13px;
+    height: 13px;
+}
+#findNicks2 {
 	position: absolute;
 	right: 104px;
 	color: #fff;
